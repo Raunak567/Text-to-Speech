@@ -1,4 +1,4 @@
-# TODO#1 - Importing Required Libraries
+# Importing Required Libraries
 import gradio as gr
 from TTS.api import TTS
 import os
@@ -7,28 +7,26 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.io import wavfile
 
-# TODO#2 - Loading the Coqui TTS Model
+# Loading the Coqui TTS Model
 model_name = TTS.list_models()[0]
 tts = TTS(model_name)
 
 
-# TODO#3 - Defining Voice Selection
+# Defining Voice Selection
 available_speakers = [
     "Daisy Studious", "Sofia Hellen", "Asya Anara",
     "Eugenio Mataracı", "Viktor Menelaos", "Damien Black"      
 ]
-
-
-# TODO#4 - Defining Localization Options
+# Defining Localization Options
 available_languages = ["US English", "Spanish (LatAm)"]
 
 
-# TODO#5 - Defining Variables to Hold Selected Voice and Localization
+# Defining Variables to Hold Selected Voice and Localization
 selected_speaker = available_speakers[0]
 selected_language = available_languages[0]
 
 
-# TODO#6 - Managing Outputs
+# Managing Outputs
 # Create the output directory if it doesn't exist
 os.makedirs("output", exist_ok=True)
 # Global variable to store the last generated audio path and text
@@ -36,7 +34,7 @@ last_generated_audio = None
 last_generated_text = ""
 
 
-# TODO#7 - Implementing the Trim Function.
+# Implementing the Trim Function.
 def trim_text(text, max_length=30):
     """
     Trim the text to a maximum length and add ellipsis if it exceeds the limit.
@@ -50,8 +48,8 @@ def generate_speech_with_timestamps(text, speaker, language):
     output_path = "output/generated_speech.wav"
     start_time = time.time()
 
-    # TODO#8 - Implementing the Main TTS Function
-     # Generate the speech and save it to a WAV file
+    # Implementing the Main TTS Function
+    # Generate the speech and save it to a WAV file
     tts.tts_to_file(
         text=text,
         speaker=speaker,
@@ -60,20 +58,20 @@ def generate_speech_with_timestamps(text, speaker, language):
     )
 
 
-    # TODO#9 - Managing Duration and Tracking Variables
+    # Managing Duration and Tracking Variables
     end_time = time.time()
     duration = round(end_time - start_time, 2)
     last_generated_audio = output_path
     last_generated_text = text
 
 
-    # TODO#10 - Extracting Audio Information
-      # Calculate the length of the generated speech
+    # Extracting Audio Information
+    # Calculate the length of the generated speech
     samplerate, data = wavfile.read(output_path)
     speech_length = len(data) / samplerate
 
 
-    # TODO#11 - Return Audio Information
+    # Return Audio Information
     return output_path, len(text.split()), speaker, language, round(speech_length, 2), duration
 
 
@@ -133,38 +131,38 @@ def generate_speech(text, speaker, language):
 # Gradio Interface Setup
 def setup_interface():
     with gr.Blocks() as app:
-        # TODO#12 - Adding Title and Description
+        # Adding Title and Description
         gr.Markdown("# 🗣️ Text-to-Speech GenAI with Coqui TTS")
         gr.Markdown("Convert text to speech using Coqui TTS with support for different languages and speakers.")
 
 
         with gr.Row():
             with gr.Column():
-                # TODO#13 - Creating Text Input
+                # Creating Text Input
                                text_input = gr.Textbox(label="Enter Text", placeholder="Type your text here...", lines=3)
 
 
             with gr.Row():
-                    # TODO#14 - Creating Voice and Localization Options
+                    # Creating Voice and Localization Options
                     speaker_dropdown = gr.Dropdown(choices=available_speakers, value=selected_speaker, label="Select Voice")
                     language_radio = gr.Radio(choices=available_languages, value=selected_language, label="Select Localization")
 
 
             with gr.Column():
-                # TODO#15 - Displaying Data Information and Status
+                # Displaying Data Information and Status
                 data_info_display = gr.Textbox(label="Data Info", interactive=False, lines=5)
                 status_message = gr.Textbox(label="Status", interactive=False)
 
 
         with gr.Row():
             with gr.Column():
-                # TODO#16 - Adding Audio Output and "Generate Speech" Button
+                # Adding Audio Output and "Generate Speech" Button
                 audio_output = gr.Audio(label="Generated Speech", interactive=False)
                 generate_button = gr.Button("Generate Speech")
 
 
             with gr.Column():
-                # TODO#17 - Adding Waveform Display and "Generate Waveform" Button
+                # Adding Waveform Display and "Generate Waveform" Button
                 waveform_output = gr.Image(label="Waveform")
                 generate_waveform_button = gr.Button("Generate Waveform", interactive=False)
 
@@ -182,7 +180,7 @@ def setup_interface():
 
     return app
 
-# TODO#18 - Launching the App
+# Launching the App
 if __name__ == "__main__":
     app = setup_interface()
     app.launch(share=True)
